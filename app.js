@@ -120,9 +120,10 @@ app.post('/webhook', (req, res) => {
 async function add_mess(obj) {
   console.log('add mess to db');
   const uri = "mongodb+srv://ochimot:Vandai1506@cluster0.eooup.mongodb.net/?retryWrites=true&w=majority";
-  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+  const client = new MongoClient(uri);
   try {
     // Connect to the MongoDB cluster
+    console.log('Client is connecting...');
     await client.connect();
     // Make the appropriate DB calls
     const result = await client.db("grapAPIFacebook").collection("messages").insertOne(obj);
