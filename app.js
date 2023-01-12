@@ -25,13 +25,6 @@ var path = require('path');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://ochimot:Vandai1506@cluster0.eooup.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-client.connect(err => {
-  console.log('connect');
-  const collection = client.db("grapAPIFacebook").collection("message").insertOne({ senderPsid: '5645765508807022', message: '1' });
-  // perform actions on the collection object
-  console.log('succesful inital.');
-  client.close();
-});
 // Imports dependencies and set up http server
 const
   request = require('request'),
@@ -111,7 +104,7 @@ app.post('/webhook', (req, res) => {
           'message': webhookEvent.message.text
         }
         console.log("obj: ", obj);
-        add_mess(obj)
+        add_mess(obj);
       }
 
     });
@@ -237,7 +230,7 @@ function callSendAPI(senderPsid, response) {
 }
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT || 3000, function () {
+app.listen(process.env.PORT || 3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
