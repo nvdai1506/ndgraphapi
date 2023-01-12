@@ -125,14 +125,16 @@ async function add_mess(obj) {
     await client.connect();
 
     // Make the appropriate DB calls
-    const result = await client.db("grapAPIFacebook").collection("messages2").insertOne(obj);
+    const result = await client.db("grapAPIFacebook").collection("messages").insertOne(obj);
     console.log(`id: ${result.insertedId}`);
     console.log('add mess to db Successfully');
 
   } catch (e) {
+    console.log('error');
     console.error(e);
   } finally {
     // Close the connection to the MongoDB cluster
+    console.log('finally');
     await client.close();
   }
 }
