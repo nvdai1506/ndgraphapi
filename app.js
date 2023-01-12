@@ -122,7 +122,6 @@ async function add_mess(obj) {
   console.log('add mess to db');
   try {
     // Connect to the MongoDB cluster
-    await client.connect();
     // Make the appropriate DB calls
     const result = await client.db("grapAPIFacebook").collection("messages").insertOne(obj);
     console.log(`id: ${result.insertedId}`);
@@ -131,10 +130,6 @@ async function add_mess(obj) {
   } catch (e) {
     console.log('error');
     console.error(e);
-  } finally {
-    // Close the connection to the MongoDB cluster
-    console.log('finally');
-    await client.close();
   }
 }
 // Handles messages events
@@ -230,7 +225,9 @@ function callSendAPI(senderPsid, response) {
 }
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT || 3000, function () {
+var listener = app.listen(process.env.PORT || 3000, async function () {
+  await client.connect();
+
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
