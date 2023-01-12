@@ -119,6 +119,7 @@ app.post('/webhook', (req, res) => {
 });
 //  push mess to db
 async function add_mess(obj) {
+  console.log('add mess to db');
   try {
     // Connect to the MongoDB cluster
     await client.connect();
