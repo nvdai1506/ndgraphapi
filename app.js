@@ -23,8 +23,7 @@
 require('dotenv').config();
 var path = require('path');
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://ochimot:Vandai1506@cluster0.eooup.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+
 // Imports dependencies and set up http server
 const
   request = require('request'),
@@ -120,8 +119,11 @@ app.post('/webhook', (req, res) => {
 //  push mess to db
 async function add_mess(obj) {
   console.log('add mess to db');
+  const uri = "mongodb+srv://ochimot:Vandai1506@cluster0.eooup.mongodb.net/?retryWrites=true&w=majority";
+  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
   try {
     // Connect to the MongoDB cluster
+    await client.connect();
     // Make the appropriate DB calls
     const result = await client.db("grapAPIFacebook").collection("messages").insertOne(obj);
     console.log(`id: ${result.insertedId}`);
@@ -130,6 +132,10 @@ async function add_mess(obj) {
   } catch (e) {
     console.log('error');
     console.error(e);
+  } finally {
+    // Close the connection to the MongoDB cluster
+    console.log('finally');
+    await client.close();
   }
 }
 // Handles messages events
@@ -225,9 +231,7 @@ function callSendAPI(senderPsid, response) {
 }
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT || 3000, async function () {
-  await client.connect();
-
+var listener = app.listen(process.env.PORT || 3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
