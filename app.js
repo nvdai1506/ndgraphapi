@@ -26,6 +26,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://ochimot:Vandai1506@cluster0.eooup.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 client.connect(err => {
+  console.log('connect');
   const collection = client.db("grapAPIFacebook").collection("message").insertOne({ senderPsid: '5645765508807022', message: '1' });
   // perform actions on the collection object
   console.log('succesful inital.');
