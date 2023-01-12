@@ -127,6 +127,7 @@ async function add_mess(obj) {
     // Make the appropriate DB calls
     const result = await client.db("grapAPIFacebook").collection("messages2").insertOne(obj);
     console.log(`id: ${result.insertedId}`);
+    console.log('add mess to db Successfully');
 
   } catch (e) {
     console.error(e);
